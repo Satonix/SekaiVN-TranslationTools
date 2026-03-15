@@ -1,0 +1,76 @@
+1) Deixe na pasta do jogo:
+
+menherafflesia.exe
+Patch.zip
+extrair_package.py
+reconstruir_menherafflesia.py
+
+
+2) Extrair o package que está embutido no .exe do jogo
+
+python extrair_package.py menherafflesia.exe package_base.nw
+
+(Se der certo é pra aparecer algo tipo:
+OK: extraído para package_base.nw
+Offset inicial: ...)
+
+
+2.1) IMPORTANTE: anote o valor de "Offset inicial"
+
+Abra o arquivo reconstruir_menherafflesia.py e coloque esse valor na variável:
+
+ZIP_START_OFFSET = ...
+
+Se o offset ficar errado, muito provavelmente o arquivo que vai ser gerado não irá funcionar.
+
+
+2.2) Achar onde fica localizado o 7z.exe
+
+No cmd use:
+where 7z
+
+Se aparecer algo, ok.
+
+Se não aparecer, procure nas pastas comuns:
+where /r "C:\Program Files" 7z.exe
+where /r "C:\Program Files (x86)" 7z.exe
+
+
+3) Extrair o package_base.nw
+
+Rodar no console:
+if exist base_real rmdir /s /q base_real
+mkdir base_real
+"CAMINHO\DO\SEU\7z.exe" x package_base.nw -obase_real -aoa
+
+Isso vai criar a pasta base_real.
+
+
+4) Aplicar o patch por cima dessa base
+
+Rode no cmd:
+powershell -NoProfile -Command "Expand-Archive -Path '.\Patch.zip' -DestinationPath '.\base_real' -Force"
+
+
+5) Recriar o package com a tradução
+
+cd /d base_real
+"CAMINHO\DO\SEU\7z.exe" a -tzip ..\package_patched.nw *
+cd /d ..
+
+
+5.5) Recomendado: verificar se esse novo package está correto
+
+Rode no cmd:
+"CAMINHO\DO\SEU\7z.exe" l package_patched.nw | findstr /i "package.json index.html"
+
+
+6) Reconstruir o .exe final
+
+Rode no cmd:
+python reconstruir_menherafflesia.py
+
+Isso deve gerar o menherafflesia_traduzido.exe
+
+
+7) Agora seja feliz :)

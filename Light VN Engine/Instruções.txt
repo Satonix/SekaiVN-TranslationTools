@@ -1,0 +1,65 @@
+Help:
+python lightvn_mcdat_tool.py -h
+
+inspect:
+python lightvn_mcdat_tool.py inspect ARQUIVO1.mcdat ARQUIVO2.mcdat
+
+export-zero:
+python lightvn_mcdat_tool.py export-zero 0.mcdat
+python lightvn_mcdat_tool.py export-zero 0.mcdat -o 0.mcdat.json
+--Decodifica o 0.mcdat para JSON.
+
+list-scripts:
+python lightvn_mcdat_tool.py list-scripts 0.mcdat
+python lightvn_mcdat_tool.py list-scripts 0.mcdat.json
+python lightvn_mcdat_tool.py list-scripts 0.mcdat -o scripts.txt
+--Lista os arquivos que parecem ser scripts com base no 0.mcdat ou 0.mcdat.json
+
+decrypt:
+-Arquivo único
+python lightvn_mcdat_tool.py decrypt 9379.mcdat
+python lightvn_mcdat_tool.py decrypt 9379.mcdat -o scenario01.txt
+python lightvn_mcdat_tool.py decrypt 9219.mcdat --guess-ext
+
+-Pasta
+python lightvn_mcdat_tool.py decrypt "Data\_"
+python lightvn_mcdat_tool.py decrypt "Data\_" -o "Data_dec"
+python lightvn_mcdat_tool.py decrypt "Data\_" -o "Data_dec" --guess-ext
+--guest-ext tenta renomear a saída para .txt, .png, .json, etc
+
+encrypy:
+-Arquivo único
+python lightvn_mcdat_tool.py encrypt scenario01.txt
+python lightvn_mcdat_tool.py encrypt scenario01.txt -o 9379.mcdat
+
+-Pasta
+python lightvn_mcdat_tool.py encrypt "arquivos_editados"
+python lightvn_mcdat_tool.py encrypt "arquivos_editados" -o "arquivos_mcdat"
+
+unpack:
+python lightvn_mcdat_tool.py unpack "Data\_"
+python lightvn_mcdat_tool.py unpack "Data\_" -o "trabalho"
+python lightvn_mcdat_tool.py unpack "Data\_" -o "trabalho" --guess-ext
+python lightvn_mcdat_tool.py unpack "Data\_" -o "trabalho" --scripts-only
+python lightvn_mcdat_tool.py unpack "Data\_" -o "trabalho" --guess-ext --scripts-only
+
+repack:
+python lightvn_mcdat_tool.py repack "PASTA"
+python lightvn_mcdat_tool.py repack "PASTA" -o "Newmcdat"
+--Se existir 0.mcdat.json dentro da pasta, ele usa o mapeamento correto dos nomes numéricos
+
+patch:
+python lightvn_mcdat_tool_v2.py patch "PASTA"
+python lightvn_mcdat_tool_v2.py patch "PASTA" -o "Patch"
+--Gera uma pasta Patch pronta para teste no jogo. (É necessário ter o 0.mcdat.json dentro da pasta)
+
+
+Ajuda individual sobre o uso de cada comando:
+python lightvn_mcdat_tool.py inspect -h
+python lightvn_mcdat_tool.py export-zero -h
+python lightvn_mcdat_tool.py list-scripts -h
+python lightvn_mcdat_tool.py decrypt -h
+python lightvn_mcdat_tool.py encrypt -h
+python lightvn_mcdat_tool.py unpack -h
+python lightvn_mcdat_tool.py repack -h
+python lightvn_mcdat_tool.py patch -h
